@@ -17,10 +17,14 @@ def getenv_int(var_name, default_value=0):
     return result
 
 
+def getenv_emails(var_name):
+    env_value = os.getenv(var_name, "").split(",")
+    return env_value
+
+
 class Configuration():
     DEBUG: bool = getenv_boolean("DEBUG")
-    PASSWORD_KEY: str = os.getenv("PASSWORD_KEY", "set_complex_key")
-    KEY_ENCODE: bytes = PASSWORD_KEY.encode("utf-8")
+    URL_FRONT = os.getenv("URL_FRONT")
 
     TOKEN_KEY: str = os.getenv("TOKEN_KEY", "")
     ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
@@ -44,3 +48,20 @@ class Configuration():
         f"/{MYSQL_DATABASE}"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    MAIL_SERVER = os.getenv("MAIL_SERVER")
+    MAIL_PORT = getenv_int("MAIL_PORT", 25)
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME", "")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "")
+    DONT_REPLY_FROM_EMAIL = getenv_emails("DONT_REPLY_FROM_EMAIL")
+    ADMINS = getenv_emails("ADMINS")
+    MAIL_USE_TLS = getenv_boolean("MAIL_USE_TLS", False)
+    MAIL_USE_SSL = getenv_boolean("MAIL_USE_SSL", False)
+
+    KEY_URL_TOKEN=os.getenv("KEY_URL_TOKEN")
+    USERS_ACTIVATE_TOKEN_AGE_IN_SECONDS=getenv_int("USERS_ACTIVATE_TOKEN_AGE_IN_SECONDS")
+    USERS_RESET_PASSWORD_TOKEN_AGE_IN_SECONDS=getenv_int(
+            "USERS_RESET_PASSWORD_TOKEN_AGE_IN_SECONDS"
+            )
+    USERS_ACTIVATE_SALT = "ACTIVATE_USER"
+    USERS_RESET_PASSWORD_SALT = "RESET_PASS"

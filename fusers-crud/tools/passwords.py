@@ -1,10 +1,9 @@
 import bcrypt
-from config.config import Configuration
 
 
 def encrypt_password(password: str):
     return bcrypt.hashpw(password.encode("utf-8"),
-                         Configuration.KEY_ENCODE)
+                         bcrypt.gensalt())
 
 
 def validate_password(password: str, hashed_password: str):

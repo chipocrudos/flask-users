@@ -1,12 +1,11 @@
 from http import HTTPStatus
 
-from config.extensions import db
+from config import db
 from flask import jsonify, make_response, request
 from marshmallow.exceptions import ValidationError
 from models.users import User as UserModel
-from schemas.users import user_schema, users_schema
+from schemas.users import me_update_schema, user_schema, users_schema
 from tools.jwt_token import get_jwt_payload
-from tools.passwords import encrypt_password
 
 
 def create_user_view():
@@ -23,12 +22,11 @@ def create_user_view():
     if exist_user:
         return make_response(jsonify("User exist"), HTTPStatus.BAD_REQUEST)
 
-    user["hashed_password"] = encrypt_password(user.pop("password"))
     db_user = UserModel(
         email=user["email"],
         first_name=user["first_name"],
         last_name=user["last_name"],
-        hashed_password=user["hashed_password"],
+        is_active=True
     )
     db.session.add(db_user)
     db.session.commit()
@@ -45,9 +43,33 @@ def list_users_view():
     return make_response(jsonify(users_schema.dump(users)), HTTPStatus.OK)
 
 
+def me_update_user_view():
+    
+    args = request.get_json()
+    payload = get_jwt_payload()
+
+    try:
+        user = me_update_schema.load(args)
+    except ValidationError as err:
+        return make_response(jsonify(err.messages), HTTPStatus.BAD_REQUEST)
+
+    db_user = UserModel.query.filter_by(email=payload["email"]).first()
+
+    if db_user is None:
+        return make_response("User not exist", HTTPStatus.NOT_FOUND)
+    
+    db_user.first_name = user.get("first_name")
+    db_user.last_name = user.get("last_name")
+
+    db.session.commit()
+    db.session.refresh(db_user)
+
+    return make_response(user_schema.dump(db_user), HTTPStatus.OK)
+
+
 def me_view():
     payload = get_jwt_payload()
     db_user = UserModel.query.filter_by(email=payload["email"]).first()
 
-    return make_response(jsonify(user_schema.dump(db_user)),
+    return make_response(user_schema.dump(db_user),
                          HTTPStatus.ACCEPTED)

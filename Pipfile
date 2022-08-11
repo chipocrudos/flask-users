@@ -12,6 +12,8 @@ flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 bcrypt = "*"
 python-jose = "*"
+flask-mail = "*"
+itsdangerous = "*"
 
 [dev-packages]
 bpython = "*"
@@ -21,3 +23,4 @@ python_version = "3.9"
 
 [scripts]
 server = "python fusers-crud/main.py"
+services = "docker-compose up -d mysql-fcuj adminer-fcuj smtp4dev"

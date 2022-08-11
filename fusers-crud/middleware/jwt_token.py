@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from config.config import Configuration
+from config import Configuration
 from flask import make_response, request
 from jose import JWTError, jwt
 
