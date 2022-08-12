@@ -44,7 +44,7 @@ def list_users_view():
 
 
 def me_update_user_view():
-    
+
     args = request.get_json()
     payload = get_jwt_payload()
 
@@ -57,7 +57,7 @@ def me_update_user_view():
 
     if db_user is None:
         return make_response("User not exist", HTTPStatus.NOT_FOUND)
-    
+
     db_user.first_name = user.get("first_name")
     db_user.last_name = user.get("last_name")
 
@@ -70,6 +70,5 @@ def me_update_user_view():
 def me_view():
     payload = get_jwt_payload()
     db_user = UserModel.query.filter_by(email=payload["email"]).first()
-
     return make_response(user_schema.dump(db_user),
-                         HTTPStatus.ACCEPTED)
+                         HTTPStatus.OK)

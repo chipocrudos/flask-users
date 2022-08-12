@@ -9,7 +9,7 @@ def validate_token():
     authorizaition = request.headers.get('authorization')
 
     if authorizaition is None:
-        return make_response("Not valid token provided",
+        return make_response("Token is not provided",
                              HTTPStatus.UNAUTHORIZED)
 
     try:
