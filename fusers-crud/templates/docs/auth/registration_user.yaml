@@ -1,0 +1,38 @@
+Register user
+---
+tags:
+  - Auth
+
+definitions:
+  User:
+    type: object
+    required:
+      - email
+      - first_name
+      - last_name
+      - password
+      - confirm_password
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      confirm_password:
+        type: string
+
+requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/definitions/User'
+
+responses:
+  200:
+    description: Request user registration
+    content:
+      application/json:

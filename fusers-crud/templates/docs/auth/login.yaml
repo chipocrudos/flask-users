@@ -1,0 +1,33 @@
+Login user
+---
+tags:
+  - Auth
+
+definitions:
+  Login:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  Token:
+    type: object
+    properties:
+      token:
+        type: string
+
+requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/definitions/Login'
+
+responses:
+  200:
+    description: Request a token from login user
+    content:
+      application/json:
+        schema:
+          $ref: '#/definitions/Token'

@@ -1,2 +1,2 @@
-from .config import Configuration
-from .extensions import db, logger, loop, ma, mail, urlsafe
+from .config import DOCS_PATH, SWAGGER_CONFIG, Configuration
+from .extensions import cors, db, logger, loop, ma, mail, swagger, urlsafe

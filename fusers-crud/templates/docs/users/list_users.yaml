@@ -1,0 +1,36 @@
+User list
+---
+tags:
+  - User
+parameters:
+  - name: limit
+    in: query
+    description: number of items to return
+    required: false
+    schema:
+      type: integer
+      format: int32
+      default: 10
+  - name: offset
+    in: query
+    description: number of items to offset
+    required: false
+    schema:
+      type: integer
+      format: int32
+      default: 0
+
+security:
+  - jwt: []
+
+responses:
+  200:
+    description: List of users
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+  401:
+   description: Token is not provided

@@ -1,0 +1,24 @@
+Change user password
+---
+tags:
+  - User
+parameters:
+  - name: id
+    in: path
+    description: User id
+    required: true
+    schema:
+      type: integer
+
+security:
+  - jwt: []
+
+responses:
+  200:
+    description: Get user
+    content:
+      application/json:
+        schema:
+            $ref: "#/components/schemas/User"
+  401:
+   description: Token is not provided

@@ -59,7 +59,7 @@ login_schema = LoginSchema()
 
 class TokenPayloadSchema(ma.Schema):
     id = fields.Integer(required=True)
-    email = fields.String(required=True)
+    email = fields.Email(required=True)
     is_active = fields.Boolean()
 
 

@@ -1,0 +1,18 @@
+Active user and validate email
+---
+tags:
+  - Auth
+parameters:
+  - name: token
+    in: path
+    description: token authorization
+    required: true
+    schema:
+      type: string
+
+responses:
+  200:
+    description: User active successfully
+
+  400:
+    description: Signature expired or Bad signature

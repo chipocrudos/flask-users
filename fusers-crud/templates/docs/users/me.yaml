@@ -1,0 +1,14 @@
+User list
+---
+tags:
+  - User
+description: Protected content method, Can not be seen whitout token.
+security:
+  - jwt: []
+responses:
+  200:
+    description: Users info
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/User"

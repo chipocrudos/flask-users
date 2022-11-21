@@ -1,0 +1,26 @@
+Create user
+---
+tags:
+  - User
+
+requestBody:
+  description: Create a new user
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/User"
+
+security:
+  - jwt: []
+
+responses:
+  201:
+    description: User created successfully
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/User"
+
+  400:
+    description: User exist 

@@ -2,7 +2,7 @@ from functools import wraps
 from http import HTTPStatus
 
 from config import urlsafe
-from flask import make_response
+from flask import jsonify, make_response
 from itsdangerous.exc import BadSignature, SignatureExpired
 
 
@@ -19,10 +19,12 @@ def validate_url_token(salt, age):
                     max_age=age
                 )
             except SignatureExpired:
-                return make_response("Signature expired", HTTPStatus.BAD_REQUEST)
+                return make_response(
+                    jsonify("Signature expired"), HTTPStatus.BAD_REQUEST)
 
             except (BadSignature, TypeError, ValueError):
-                return make_response("Bad signature", HTTPStatus.BAD_REQUEST)
+                return make_response(
+                    jsonify("Bad signature"), HTTPStatus.BAD_REQUEST)
 
             return f(data)
 

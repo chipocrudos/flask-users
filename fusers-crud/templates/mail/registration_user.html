@@ -7,6 +7,10 @@
 <body>
     <h1>User registration completed!</h1>
     <h2>To active your user follow check the next link!</h2>
-    <h3>{{url_front}}/active-user/{{ token }}</h3>
+    <h3>
+        <a href="{{url_front}}/auth/active-user/{{ token }}">
+            {{url_front}}/auth/active-user/{{ token }}
+        </a>
+    </h3>
 </body>
 </html>

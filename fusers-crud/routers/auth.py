@@ -10,7 +10,9 @@ auth_router.add_url_rule(
     "/register-user/", view_func=registration_user_view, methods=["POST"]
 )
 
-auth_router.add_url_rule("/active-user/<token>/", view_func=active_user_view, methods=["GET"])
+auth_router.add_url_rule("/active-user/<token>/", view_func=active_user_view,
+    methods=["GET"]
+)
 
 auth_router.add_url_rule(
     "/password-recovery/", view_func=password_recovery_view, methods=["POST"]

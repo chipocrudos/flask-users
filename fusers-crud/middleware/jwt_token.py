@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from config import Configuration
-from flask import make_response, request
+from flask import jsonify, make_response, request
 from jose import JWTError, jwt
 
 
@@ -9,7 +9,8 @@ def validate_token():
     authorizaition = request.headers.get('authorization')
 
     if authorizaition is None:
-        return make_response("Token is not provided",
+        return make_response(
+            jsonify("Token is not provided"),
                              HTTPStatus.UNAUTHORIZED)
 
     try:
@@ -19,9 +20,11 @@ def validate_token():
                              algorithms=[Configuration.ALGORITHM])
 
         if not (token_type == "Bearer" and payload["email"]):
-            return make_response("Not valid token provided",
+            return make_response(
+                jsonify("Not valid token provided"),
                                  HTTPStatus.UNAUTHORIZED)
 
     except JWTError:
-        return make_response("Not valid token provided",
+        return make_response(
+            jsonify("Not valid token provided"),
                              HTTPStatus.UNAUTHORIZED)

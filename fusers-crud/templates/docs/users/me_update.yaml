@@ -1,0 +1,29 @@
+Me User update
+---
+tags:
+  - User
+description: Protected content method, Can not be seen whitout token.
+
+security:
+  - jwt: []
+
+requestBody:
+  required:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          first_name:
+            type: string
+          last_name:
+            type: string
+
+
+responses:
+  200:
+    description: Update my own date
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/User"

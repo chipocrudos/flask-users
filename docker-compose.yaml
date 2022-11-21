@@ -34,7 +34,6 @@ services:
 
   smtp4dev:
     image: rnwood/smtp4dev:v3
-    restart: always
     ports:
       # Change the number before : to the port the web interface should be accessible on
       - '5050:80'
