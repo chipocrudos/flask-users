@@ -1,6 +1,6 @@
 from config import cors, db, ma, mail, swagger
 from flask import Flask
-from flask_cors import CORS
+from handlers.errors import error_routes
 from middleware.jwt_token import validate_token
 from routers.routers import app_routes
 from tools.app_function import cors_preflight_response, sync_db
@@ -29,6 +29,8 @@ def create_app():
     }
 
     app.register_blueprint(app_routes)
+    app.register_blueprint(error_routes)
+
 
     @app.after_request
     def _after_request_header(response):

@@ -3,7 +3,6 @@ from http import HTTPStatus
 from config import DOCS_PATH, Configuration, db, urlsafe
 from flasgger import swag_from
 from flask import jsonify, make_response, request
-from marshmallow.exceptions import ValidationError
 from middleware.token import validate_url_token
 from models.users import User as UserModel
 from schemas.auth import (email_schema, login_schema, password_confirm_schema,
@@ -17,10 +16,7 @@ from tools.send_mail import send_email
 def login_view():
 
     args = request.get_json()
-    try:
-        user = login_schema.load(args)
-    except ValidationError as err:
-        return make_response(jsonify(err.messages), HTTPStatus.BAD_REQUEST)
+    user = login_schema.load(args)
 
     login_user = UserModel.query.filter_by(
                     email=user["email"],
@@ -47,10 +43,7 @@ def registration_user_view():
 
     args = request.get_json()
 
-    try:
-        user = user_register_schema.load(args)
-    except ValidationError as err:
-        return make_response(jsonify(err.messages), HTTPStatus.BAD_REQUEST)
+    user = user_register_schema.load(args)
 
     exist_user = UserModel.query.filter_by(email=user["email"]).first()
 
@@ -106,10 +99,7 @@ def active_user_view(payload):
 def change_password_view(payload):
     args = request.get_json()
 
-    try:
-        passwords = password_confirm_schema.load(args)
-    except ValidationError as err:
-        return make_response(jsonify(err.messages), HTTPStatus.BAD_REQUEST)
+    passwords = password_confirm_schema.load(args)
 
     exist_user = UserModel.query.filter_by(email=payload["email"]).first()
 
@@ -128,10 +118,7 @@ def password_recovery_view():
 
     args = request.get_json()
 
-    try:
-        email = email_schema.load(args)
-    except ValidationError as err:
-        return make_response(jsonify(err.messages), HTTPStatus.BAD_REQUEST)
+    email = email_schema.load(args)
 
     exist_user = UserModel.query.filter_by(email=email["email"]).first()
 

@@ -3,8 +3,6 @@ from http import HTTPStatus
 from config import DOCS_PATH, db
 from flasgger import swag_from
 from flask import jsonify, make_response, request
-from flask_cors import cross_origin
-from marshmallow.exceptions import ValidationError
 from models.users import User as UserModel
 from schemas.users import me_update_schema, user_schema, users_schema
 from tools.jwt_token import get_jwt_payload
@@ -15,10 +13,7 @@ def create_user_view():
 
     args = request.get_json()
 
-    try:
-        user = user_schema.load(args)
-    except ValidationError as err:
-        return make_response(jsonify(err.messages), HTTPStatus.BAD_REQUEST)
+    user = user_schema.load(args)
 
     exist_user = UserModel.query.filter_by(email=user["email"]).first()
 
@@ -64,10 +59,7 @@ def me_update_user_view():
     args = request.get_json()
     payload = get_jwt_payload()
 
-    try:
-        user = me_update_schema.load(args)
-    except ValidationError as err:
-        return make_response(jsonify(err.messages), HTTPStatus.BAD_REQUEST)
+    user = me_update_schema.load(args)
 
     db_user = UserModel.query.filter_by(email=payload["email"]).first()
 
