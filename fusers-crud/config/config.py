@@ -2,6 +2,7 @@ import os
 
 APP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DOCS_PATH = os.path.join(APP_DIR, "templates", "docs")
+TEMPLATE_FOLDER = os.path.join(APP_DIR, "templates")
 
 
 def getenv_boolean(var_name, default_value=False):
@@ -73,6 +74,37 @@ class Configuration:
     CORS_ORIGINS = getenv_lists("CORS_ORIGINS") if os.getenv("CORS_ORIGINS") else "*"
     CORS_EXPOSE_HEADERS = ["Content-Type", "Authorization"]
     ALLOW_ORIGIN = ",".join(CORS_ORIGINS) if isinstance(CORS_ORIGINS, list) else "*"
+
+    LOGGING = {
+        "version": 1,
+        "filters": {
+            "backend_filter": {
+                "backend_module": "backend",
+            }
+        },
+        "formatters": {
+            "standard": {
+                "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
+            },
+            "compact": {"format": "%(asctime)s %(message)s"},
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "level": "DEBUG",
+                "formatter": "standard",
+                "stream": "ext://sys.stdout",
+                "filters": ["backend_filter"],
+            },
+        },
+        "loggers": {
+            "": {"handlers": ["console"], "level": "DEBUG"},
+            "flask": {"level": "WARNING"},
+            "sqlalchemy": {"level": "WARNING"},
+            "werkzeug": {"level": "WARNING"},
+        },
+        "disable_existing_loggers": False,
+    }
 
 
 SWAGGER_CONFIG = {

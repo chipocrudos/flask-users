@@ -1,5 +1,6 @@
 import logging
 from asyncio import get_event_loop
+from logging.config import dictConfig
 
 from flasgger import Swagger
 from flask_cors import CORS
@@ -15,11 +16,13 @@ db = SQLAlchemy()
 mail = Mail()
 cors = CORS()
 
-swagger = Swagger(config=SWAGGER_CONFIG, merge=True,
-                  template_file=Configuration.TEMPLATE_FILE)
+swagger = Swagger(
+    config=SWAGGER_CONFIG, merge=True, template_file=Configuration.TEMPLATE_FILE
+)
 
 loop = get_event_loop()
 
+dictConfig(Configuration.LOGGING)
 logger = logging.getLogger(__name__)
 
 urlsafe = URLSafeTimedSerializer(Configuration.KEY_URL_TOKEN)

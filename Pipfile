@@ -19,6 +19,9 @@ flask-cors = "*"
 
 [dev-packages]
 bpython = "*"
+pytest = "*"
+coverage = "*"
+pytest-env = "*"
 
 [requires]
 python_version = "3.9"
@@ -26,4 +29,9 @@ python_version = "3.9"
 [scripts]
 server = "python fusers-crud/main.py"
 base = "docker-compose up -d mysql-fcuj"
+routes = "flask -A fusers-crud/main routes"
 services = "docker-compose up -d mysql-fcuj adminer-fcuj smtp4dev"
+cov = "coverage run -m pytest -c fusers-crud/pytest.ini --rootdir=fusers-crud"
+report = "coverage report"
+html = "coverage html"
+test = "pytest -v -c fusers-crud/pytest.ini --rootdir=fusers-crud"

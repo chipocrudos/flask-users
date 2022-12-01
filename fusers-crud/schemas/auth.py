@@ -2,8 +2,7 @@ import re
 from enum import Enum
 
 from config.extensions import ma
-from marshmallow import (ValidationError, fields, validate, validates,
-                         validates_schema)
+from marshmallow import ValidationError, fields, validate, validates, validates_schema
 
 from .users import UserSchema
 
@@ -37,17 +36,13 @@ email_schema = MailSchema()
 
 
 class PasswordSchema(ma.Schema):
-    password = fields.String(
-        required=True,
-        validate=validate.Length(min=8))
+    password = fields.String(required=True, validate=validate.Length(min=8))
 
     @validates("password")
     def validate_password(self, password):
         match = re.match(PasswordStrong.LESS.value, password)
         if not match:
-            raise ValidationError(
-                PasswordStrong.LESS_ERROR.value
-            )
+            raise ValidationError(PasswordStrong.LESS_ERROR.value)
 
 
 class LoginSchema(MailSchema):
@@ -82,5 +77,6 @@ password_confirm_schema = PasswordConfimSchema()
 
 class UserRegisterSchema(UserSchema, PasswordConfimSchema):
     pass
+
 
 user_register_schema = UserRegisterSchema()

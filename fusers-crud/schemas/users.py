@@ -1,5 +1,8 @@
+from email.policy import default
+
 from config.extensions import ma
 from marshmallow import fields
+from pkg_resources import require
 
 
 class UserMeUpdateSchema(ma.Schema):
@@ -16,7 +19,7 @@ class UserSchema(UserMeUpdateSchema):
     date_create = fields.String(dump_only=True)
     password = fields.String(load_only=True)
     is_active = fields.Boolean()
-    is_super = fields.Boolean()
+    is_super = fields.Boolean(missing=False)
 
 
 user_schema = UserSchema()
